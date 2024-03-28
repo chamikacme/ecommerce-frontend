@@ -4,7 +4,7 @@ import { Product } from "@/types/Product";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const MyProductsPage = () => {
+const FavoriteProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   const setLoading = useLoadingStore((state) => state.setLoading);
@@ -12,7 +12,7 @@ const MyProductsPage = () => {
   useEffect(() => {
     setLoading(true);
     AxiosClient()
-      .get("/products/my-products")
+      .get("/products/favorites")
       .then((response) => {
         setProducts(response.data.data);
       })
@@ -27,7 +27,7 @@ const MyProductsPage = () => {
   return (
     <div className="py-6">
       <div className="container">
-        <div className="text-3xl font-medium mb-4">My Products</div>
+        <div className="text-3xl font-medium mb-4">Favorites</div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
           {products.map((product, index) => (
             <div
@@ -71,12 +71,7 @@ const MyProductsPage = () => {
             </div>
           ))}
           {products.length === 0 && (
-            <div className="font-medium">
-              You don't have any products yet.{" "}
-              <Link to="/products/new" className="text-primary">
-                Add a product
-              </Link>
-            </div>
+            <div className="font-medium">No favorites yet!</div>
           )}
         </div>
       </div>
@@ -84,4 +79,4 @@ const MyProductsPage = () => {
   );
 };
 
-export default MyProductsPage;
+export default FavoriteProductsPage;

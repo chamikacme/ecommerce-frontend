@@ -10,6 +10,7 @@ import PublicRoute from "./PublicRoute";
 import ProductPage from "@/pages/product/ProductPage";
 import NewProductPage from "@/pages/newproduct/NewProductPage";
 import MyProductsPage from "@/pages/my-products/MyProductsPage";
+import FavoriteProductsPage from "@/pages/favorite-products/FavoriteProductsPage";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "/products/my-products",
         element: <MyProductsPage />,
+      },
+      {
+        path: "/products/favorites",
+        element: <FavoriteProductsPage />,
       },
     ],
   },

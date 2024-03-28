@@ -1,4 +1,3 @@
-import { LayoutPanelLeft } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const SidePanel = () => {
@@ -18,7 +17,6 @@ const SidePanel = () => {
                   to="/"
                   className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-3 font-medium ease-in-out`}
                 >
-                  <LayoutPanelLeft className="h-5 w-5" />
                   Home
                 </NavLink>
               </li>
@@ -27,8 +25,23 @@ const SidePanel = () => {
                   to="/products/new"
                   className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-3 font-medium ease-in-out`}
                 >
-                  <LayoutPanelLeft className="h-5 w-5" />
                   Add Product
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/products/my-products"
+                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-3 font-medium ease-in-out`}
+                >
+                  My Products
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/products/favorites"
+                  className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-3 font-medium ease-in-out`}
+                >
+                  Favorites
                 </NavLink>
               </li>
             </ul>

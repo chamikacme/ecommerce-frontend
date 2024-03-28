@@ -22,7 +22,7 @@ const HomePage = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [setLoading]);
 
   return (
     <div className="py-6">
@@ -39,7 +39,7 @@ const HomePage = () => {
                   src={
                     product.image && product.image != ""
                       ? product.image
-                      : `https://www.shutterstock.com/image-photo/chocolate-cake-berries-600nw-394680466.jpg`
+                      : `https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png`
                   }
                   alt=""
                   className="w-full object-cover"
@@ -70,6 +70,9 @@ const HomePage = () => {
               </div>
             </div>
           ))}
+          {products.length === 0 && (
+            <div className="font-medium">No products in the store yet!</div>
+          )}
         </div>
       </div>
     </div>

@@ -25,6 +25,14 @@ const NavBar = () => {
             <Button
               variant={"ghost"}
               onClick={() => {
+                navigate("/");
+              }}
+            >
+              Home
+            </Button>
+            <Button
+              variant={"ghost"}
+              onClick={() => {
                 navigate("/products/new");
               }}
             >
@@ -37,6 +45,14 @@ const NavBar = () => {
               }}
             >
               My Products
+            </Button>
+            <Button
+              variant={"ghost"}
+              onClick={() => {
+                navigate("/products/favorites");
+              }}
+            >
+              Favorites
             </Button>
           </div>
         )}

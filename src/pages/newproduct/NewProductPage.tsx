@@ -48,7 +48,7 @@ const NewProductPage = () => {
   async function onSubmit(data: z.infer<typeof NewProductFormSchema>) {
     setLoading(true);
     try {
-      var response;
+      let response;
       if (id) {
         response = await AxiosClient().put(`/products/${id}`, {
           ...data,
@@ -107,7 +107,7 @@ const NewProductPage = () => {
     if (id) {
       fetchTestData();
     }
-  }, [id, navigate, setLoading]);
+  }, [id, navigate, setLoading, form, user._id]);
 
   return (
     <div className="grid gap-2 p-3 container">

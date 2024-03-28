@@ -8,6 +8,7 @@ export interface User {
   fullName: string;
   mobileNumber: string;
   isLogged: boolean;
+  favorites: string[];
 }
 
 interface AuthStore {

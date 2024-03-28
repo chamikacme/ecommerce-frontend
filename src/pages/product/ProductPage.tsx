@@ -59,6 +59,39 @@ const ProductPage = () => {
     }
   }
 
+  async function UpdateFavorites() {
+    const newFavorites = user.favorites.includes(product._id)
+      ? user.favorites.filter((fav) => fav !== product._id)
+      : [...user.favorites, product._id];
+
+    setLoading(true);
+    try {
+      await AxiosClient().post("/auth/update-favorites", {
+        favorites: newFavorites,
+      });
+      setLoading(false);
+      toast({
+        title: "Product favorited",
+        description: `Product ${product.name} favorited successfully`,
+      });
+
+      useAuthStore.setState({
+        user: {
+          ...user,
+          favorites: newFavorites,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      toast({
+        title: "Error",
+        description: "An error occurred while favoriting the product",
+        variant: "destructive",
+      });
+    }
+  }
+
   return (
     <div className="grid gap-2 p-3 container">
       <Card className="p-4">
@@ -76,23 +109,38 @@ const ProductPage = () => {
               <h1 className="text-2xl font-bold text-slate-900">
                 {product.name}
               </h1>
-              {user.isLogged && product && user._id === product.userId && (
+              {user.isLogged && (
                 <div>
-                  <Button
-                    className="px-4 py-2"
-                    onClick={() => {
-                      navigate(`/products/${product._id}/edit`);
-                    }}
-                  >
-                    Edit
-                  </Button>
+                  {product && user._id === product.userId && (
+                    <>
+                      <Button
+                        className="px-4 py-2"
+                        onClick={() => {
+                          navigate(`/products/${product._id}/edit`);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        className="px-4 py-2 ml-2"
+                        onClick={async () => {
+                          await deleteProduct();
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </>
+                  )}
+
                   <Button
                     className="px-4 py-2 ml-2"
-                    onClick={async () => {
-                      await deleteProduct();
+                    onClick={() => {
+                      UpdateFavorites();
                     }}
                   >
-                    Delete
+                    {user.favorites.includes(product._id)
+                      ? "Unfavorite"
+                      : "Favorite"}
                   </Button>
                 </div>
               )}
@@ -102,7 +150,7 @@ const ProductPage = () => {
                 src={
                   product.image && product.image != ""
                     ? product.image
-                    : `https://www.shutterstock.com/image-photo/chocolate-cake-berries-600nw-394680466.jpg`
+                    : `https://i0.wp.com/sunrisedaycamp.org/wp-content/uploads/2020/10/placeholder.png`
                 }
                 alt=""
                 className="w-96 object-cover rounded-xl"
