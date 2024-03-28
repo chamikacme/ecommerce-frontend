@@ -9,6 +9,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import ProductPage from "@/pages/product/ProductPage";
 import NewProductPage from "@/pages/newproduct/NewProductPage";
+import MyProductsPage from "@/pages/my-products/MyProductsPage";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/products/:id/edit",
         element: <NewProductPage />,
+      },
+      {
+        path: "/products/my-products",
+        element: <MyProductsPage />,
       },
     ],
   },

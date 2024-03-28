@@ -30,6 +30,14 @@ const NavBar = () => {
             >
               Add Product
             </Button>
+            <Button
+              variant={"ghost"}
+              onClick={() => {
+                navigate("/products/my-products");
+              }}
+            >
+              My Products
+            </Button>
           </div>
         )}
         <div className="flex justify-end items-center lg:flex-1">
