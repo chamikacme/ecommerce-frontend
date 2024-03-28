@@ -8,7 +8,7 @@ import useAuthStore from "@/store/authStore";
 import useLoadingStore from "@/store/loadingStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeftCircle } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import z from "zod";
@@ -43,14 +43,22 @@ const NewProductPage = () => {
     },
   });
 
+  const [currentImageUrl, setCurrentImageUrl] = useState<string>("");
+
   async function onSubmit(data: z.infer<typeof NewProductFormSchema>) {
     setLoading(true);
     try {
       var response;
       if (id) {
-        response = await AxiosClient().put(`/products/${id}`, data);
+        response = await AxiosClient().put(`/products/${id}`, {
+          ...data,
+          image: image,
+        });
       } else {
-        response = await AxiosClient().post("/products", data);
+        response = await AxiosClient().post("/products", {
+          ...data,
+          image: image,
+        });
       }
       toast({
         title: "Product created",
@@ -71,6 +79,8 @@ const NewProductPage = () => {
     }
   }
 
+  const [image, setImage] = useState<string>("");
+
   useEffect(() => {
     const fetchTestData = async () => {
       setLoading(true);
@@ -81,6 +91,7 @@ const NewProductPage = () => {
             navigate(`/products/${id}`);
           }
           form.reset(response.data.data);
+          setCurrentImageUrl(response.data.data.image);
           setLoading(false);
         } else {
           setLoading(false);
@@ -111,20 +122,62 @@ const NewProductPage = () => {
           </div>
           <Form {...form}>
             <div className="grid gap-4 mt-2 mr-2">
-              <FormItem>
-                <FormLabel htmlFor="name">Asset Name</FormLabel>
-                <Input id="name" type="text" {...form.register("name")} />
-                <FormMessage>{form.formState.errors.name?.message}</FormMessage>
-              </FormItem>
+              <div className="grid grid-cols-5 gap-4">
+                <div className="col-span-3">
+                  <FormItem>
+                    <FormLabel htmlFor="name">Asset Name</FormLabel>
+                    <Input id="name" type="text" {...form.register("name")} />
+                    <FormMessage>
+                      {form.formState.errors.name?.message}
+                    </FormMessage>
+                  </FormItem>
 
-              <FormItem>
-                <FormLabel htmlFor="price">Price</FormLabel>
-                <Input id="price" type="number" {...form.register("price")} />
-                <FormMessage>
-                  {form.formState.errors.price?.message}
-                </FormMessage>
-              </FormItem>
-
+                  <FormItem>
+                    <FormLabel htmlFor="price">Price</FormLabel>
+                    <Input
+                      id="price"
+                      type="number"
+                      {...form.register("price")}
+                    />
+                    <FormMessage>
+                      {form.formState.errors.price?.message}
+                    </FormMessage>
+                  </FormItem>
+                </div>
+                <div className="col-span-2">
+                  <FormItem>
+                    <FormLabel htmlFor="image">Image</FormLabel>
+                    <Input
+                      id="image"
+                      type="file"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.readAsDataURL(file);
+                          reader.onload = function () {
+                            setImage(reader.result as string);
+                          };
+                        } else {
+                          setImage("");
+                        }
+                      }}
+                    />
+                  </FormItem>
+                  <div className="grid grid-cols-2 gap-1">
+                    {currentImageUrl != "" && (
+                      <div>
+                        <div>Current Image:</div>
+                        <img src={currentImageUrl} alt="" className="py-2" />
+                      </div>
+                    )}
+                    <div>
+                      <div>New Image:</div>
+                      <img src={image} alt="" className="py-2" />
+                    </div>
+                  </div>
+                </div>
+              </div>
               <FormMessage>{form.formState.errors.root?.message}</FormMessage>
 
               <div className="flex gap-2">

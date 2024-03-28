@@ -36,7 +36,11 @@ const HomePage = () => {
             >
               <div className="relative flex h-60 overflow-hidden">
                 <img
-                  src="https://www.shutterstock.com/image-photo/chocolate-cake-berries-600nw-394680466.jpg"
+                  src={
+                    product.image && product.image != ""
+                      ? product.image
+                      : `https://www.shutterstock.com/image-photo/chocolate-cake-berries-600nw-394680466.jpg`
+                  }
                   alt=""
                   className="w-full object-cover"
                 />
